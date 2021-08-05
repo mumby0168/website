@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "RAUeOsmzFTjB+tFi4NS3apvn0e5adjHp5i1M3ciN5sJEKLr1GOBtPKP5Hk4gEp5n7hGYebikwQ7ff+NuIog4qQ==",
+  "success": true,
+  "projectFilePath": "/Users/williammumby/repos/mumby0168/website/Website.Shared/Website.Shared.csproj",
+  "expectedPackageFiles": [
+    "/Users/williammumby/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/williammumby/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
