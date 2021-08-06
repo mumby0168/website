@@ -1,0 +1,47 @@
+@using Website.Client.Helpers
+<article class="tile is-child notification">
+    <div class="media">
+        <figure class="media-left is-align-self-stretch">
+            <div class="is-height-100p is-justify-content-space-between is-flex-direction-column is-flex">
+                <div class="image is-128x128">
+                    <img alt="@Project.Title" class="is-rounded" src="@Project.ImagePath">    
+                </div>
+                <div class="has-text-centered">
+                    <p class="is-size-6">@Project.StartedAt.ToString("Y")</p>    
+                </div>
+            </div>
+        </figure>
+        <div class="media-content">
+            <div class="content">
+                <p class="title">@Project.Title</p>
+                <p class="subtitle">@Project.Kind</p>
+
+                <p>
+                    @Project.Description
+                </p>
+                @if (Project.Link is not null)
+                {
+                    <p><a href="@Project.Link.Url" class="is-underlined">@Project.Link.Text</a></p>
+                }
+                
+                <div class="level is-flex-wrap-wrap">
+                    @foreach (var tag in Project.Tags)
+                    {
+                        <div class="level-item mt-2">
+                            <span class="@TagClass(tag)">@tag.Name</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+@code {
+
+    [Parameter]
+    public Project Project { get; set; }
+
+    public string TagClass(TechTag tag) => $"tag {ColorHelpers.Class(tag.Color, tag.IsLight)}";
+
+}
