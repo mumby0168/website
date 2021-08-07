@@ -1,8 +1,6 @@
-using System;
-using System.Diagnostics;
 using Website.Shared;
 
-namespace Website.Client.Helpers
+namespace Client.Helpers
 {
     public static class ColorHelpers
     {
