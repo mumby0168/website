@@ -1,7 +1,7 @@
 @using Website.Client.Helpers
-<article class="tile is-child notification">
+<article class="column tile notification">
     <div class="media">
-        <figure class="media-left is-align-self-stretch">
+        <figure class="media-left is-hidden-mobile is-align-self-stretch">
             <div class="is-height-100p is-justify-content-space-between is-flex-direction-column is-flex">
                 <div class="image is-128x128">
                     <img alt="@Project.Title" class="is-rounded" src="@Project.ImagePath">    
@@ -24,12 +24,10 @@
                     <p><a href="@Project.Link.Url" class="is-underlined">@Project.Link.Text</a></p>
                 }
                 
-                <div class="level is-flex-wrap-wrap">
+                <div class="tags">
                     @foreach (var tag in Project.Tags)
                     {
-                        <div class="level-item mt-2">
-                            <span class="@TagClass(tag)">@tag.Name</span>
-                        </div>
+                        <span class="@TagClass(tag)">@tag.Name</span>
                     }
                 </div>
             </div>
