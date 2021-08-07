@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using Website.Shared;
 
 namespace Website.Client.Helpers

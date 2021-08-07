@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Billy Mumby</title>
+    <title>Client</title>
     <base href="/" />
     <link href="css/app.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
     <link href="css/all.min.css" rel="stylesheet" />
 </head>
 
@@ -14,36 +15,11 @@
     <div id="app">Loading...</div>
 
     <div id="blazor-error-ui">
-        <div class="modal is-active">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <article class="message is-warning is-medium">
-                    <div class="message-header">
-                        <p>
-                            <span class="icon">
-                                <i class="fas fa-exclamation-circle"></i>
-                            </span>
-                            <span>Error</span>
-                        </p>
-                    </div>
-                    <div class="message-body">
-                        An unhandled error has occurred.
-                        <button class="button is-danger is-pulled-right"
-                                onClick="window.location.assign(window.location.origin)">
-                            <span class="icon">
-                                <i class="fas fa-redo"></i>
-                            </span>
-                            <span>Reload</span>
-                        </button>
-                    </div>
-                </article>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-        </div>
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
     </div>
-
-    
-    <script autostart="false" type="application/javascript" src="/_framework/blazor.webassembly.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
 </body>
 
 </html>
