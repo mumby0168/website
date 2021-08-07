@@ -13,6 +13,35 @@
 <body>
     <div id="app">Loading...</div>
 
+    <div id="blazor-error-ui">
+        <div class="modal is-active">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <article class="message is-warning is-medium">
+                    <div class="message-header">
+                        <p>
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span>Error</span>
+                        </p>
+                    </div>
+                    <div class="message-body">
+                        An unhandled error has occurred.
+                        <button class="button is-danger is-pulled-right"
+                                onClick="window.location.assign(window.location.origin)">
+                            <span class="icon">
+                                <i class="fas fa-redo"></i>
+                            </span>
+                            <span>Reload</span>
+                        </button>
+                    </div>
+                </article>
+            </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+        </div>
+    </div>
+
     
     <script src="_framework/blazor.webassembly.js"></script>
 </body>
