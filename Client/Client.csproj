@@ -15,4 +15,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Website.Shared\Website.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
