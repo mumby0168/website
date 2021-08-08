@@ -1,9 +1,9 @@
-<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+<nav class="navbar is-white" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item is-size-4">
             Billy Mumby
         </a>
-        
+
 
         <a @onclick="@ToggleBurger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
             <span aria-hidden="true"></span>
@@ -11,7 +11,7 @@
             <span aria-hidden="true"></span>
         </a>
     </div>
-    
+
     <hr class="navbar-divider"/>
 
 
@@ -58,10 +58,19 @@
                     </span>
                 </a>
             </div>
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a href="/.auth/login/github" class="button is-light">
+                        Log in
+                    </a>
+                </div>
+            </div>
         </div>
 
     </div>
 </nav>
+
+<hr style="border-bottom: 1px solid #363636; margin: 0; opacity: 0.2"/>
 
 @code {
 

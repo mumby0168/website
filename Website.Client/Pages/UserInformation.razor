@@ -1,0 +1,55 @@
+@page "/user-info"
+@using System.Text.Json.Serialization
+@inject HttpClient Client;
+
+@if (Current is {})
+{
+    <section class="section">
+        <div class="content">
+            <h1>User Info</h1>
+
+            <p>Provider: @Current.IdentityProvider</p>
+
+            <p>User ID: @Current.UserId</p>
+
+            <p>Username: @Current.UserDetails</p>
+
+            <h4>Roles</h4>
+
+            @foreach (var role in Current.UserRoles)
+            {
+                <p>@role</p>
+            }
+        </div>
+    </section>
+}
+
+@code {
+
+    User Current { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var principal = await Client.GetFromJsonAsync<Principal>(".auth/me");
+        Current = principal?.ClientPrincipal;
+        Console.WriteLine(Current?.UserId);
+    }
+
+    record Principal(User ClientPrincipal);
+
+    class User
+    {
+        [JsonPropertyName("identityProvider")]
+        public string IdentityProvider { get; set; }
+
+        [JsonPropertyName("userId")]
+        public string UserId { get; set; }
+
+        [JsonPropertyName("userDetails")]
+        public string UserDetails { get; set; }
+
+        [JsonPropertyName("userRoles")]
+        public List<string> UserRoles { get; set; } = new();
+    }
+
+}
