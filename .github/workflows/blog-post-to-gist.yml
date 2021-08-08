@@ -4,7 +4,7 @@ name: Blog Post To Gist
 on:
   push:
     branches:
-      - publish/blog/*
+      - publish/blog/**
     paths:
       - Blog/**
 
