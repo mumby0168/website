@@ -21,7 +21,7 @@ jobs:
         id: regex-match
         with:
           text: ${{ github.ref }}
-          regex: '[a-zA-Z0-9]+\/[a-zA-Z0-9-]$'
+          regex: '[a-zA-Z0-9]+\/[a-zA-Z0-9-]+$'
       - name: Print File Path
         run: echo '${{ steps.regex-match.outputs.match }}'
     
