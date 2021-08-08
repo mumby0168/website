@@ -1,0 +1,14 @@
+
+<div class="tags">
+    @foreach (var tag in Tags)
+    {
+        <span class="@TagClass(tag)">@tag.Name</span>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<TechTag> Tags { get; set; }
+    
+    public string TagClass(TechTag tag) => $"tag {ColorHelpers.Class(tag.Color, tag.IsLight)}";
+}

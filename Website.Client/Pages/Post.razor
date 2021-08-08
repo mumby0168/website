@@ -1,7 +1,51 @@
-@page "/post"
+@inject IPostService _postService;
 
-<GitHubGist Url="https://gist.github.com/mumby0168/ee01ecc40f1d7504edbb92d5ddc2954c.js"/>
+@page "/posts/{postId}"
+<section class="section">
+    @if (Current is not null)
+    {
+        <div class="content">
+            <h1 class="subtitle is-1">@Current.Title</h1>
+            <p>@Current.Description</p>
+        </div>
+        
+        <TechTags Tags="@Current.Tags"></TechTags>
+        
+        <div style="height: @Pixels()">
+            <GitHubGist Url="@Current.GistUrl"></GitHubGist>
+        </div>
+    }
+</section>
+
+
+
+
 
 @code {
-    
+
+    [Parameter]
+    public string PostId { get; set; }
+
+    Website.Shared.Post Current { get; set; }
+
+    private string Pixels()
+    {
+        if (Current is not null)
+        {
+            return Current.RenderedHeightInPixels < 750 ? "80vh" : $"{Current.RenderedHeightInPixels}px";
+        }
+
+        return "80vh";
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine(PostId);
+        if (firstRender)
+        {
+            Current = await _postService.Get(PostId);
+            StateHasChanged();
+        }
+    }
+
 }

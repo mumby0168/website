@@ -26,12 +26,7 @@
                     <p><a href="@Project.Link.Url" class="is-underlined">@Project.Link.Text</a></p>
                 }
                 
-                <div class="tags">
-                    @foreach (var tag in Project.Tags)
-                    {
-                        <span class="@TagClass(tag)">@tag.Name</span>
-                    }
-                </div>
+                <TechTags Tags="@Project.Tags"></TechTags>
             </div>
         </div>
     </div>
@@ -41,7 +36,5 @@
 
     [Parameter]
     public Project Project { get; set; }
-
-    public string TagClass(TechTag tag) => $"tag {ColorHelpers.Class(tag.Color, tag.IsLight)}";
 
 }

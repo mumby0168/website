@@ -1,0 +1,75 @@
+@page "/posts"
+@using Website.Client.Services
+@inject IPostService _postService
+@inject NavigationManager _navigationManager;
+
+<section class="section">
+    <div class="columns">
+        @foreach (var post in All.OrderByDescending(p => p.CreatedUtc))
+        {
+            <div class="column is-half">
+                <div class="card">
+                    <div class="card-content">
+                        <p class="title mb-0">
+                            @post.Title
+                        </p>
+                        <p class="is-size-6 mb-2">@GetWrittenAgoText(post.CreatedUtc)</p>
+                        <p>
+                            @post.Description
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <NavLink href="@ReadUrl(post.Id)">
+                                <IconWithText IconClass="fa fa-book" Text="Read"></IconWithText>
+                            </NavLink>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+        await base.OnInitializedAsync();
+    }
+
+    List<Website.Shared.Post> All { get; set; } = new();
+
+    public string GetWrittenAgoText(DateTime created)
+    {
+        var diff = DateTime.Now - created;
+
+        if (diff.Days is 0)
+        {
+            return $"Posted today";
+        }
+        
+        if (DateTime.Now.Month - created.Month is 0)
+        {
+            return $"Posted {diff.Days} days ago.";
+        }
+        if (diff.Days > 365)
+        {
+            return $"Posted {DateTime.Now.Year - created.Year} years ago";
+        }
+        return $"Posted {diff.Days} days ago.";
+    }
+
+    public string ReadUrl(string postId) => $"posts/{postId}";
+
+    private async Task Load()
+    {
+        All = await _postService.GetAll();
+    }
+
+    private void View(string postId)
+        => _navigationManager.NavigateTo($"posts/{postId}");
+
+}
