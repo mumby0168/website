@@ -1,6 +1,7 @@
 @inject IPostService _postService;
 
 @page "/posts/{postId}"
+
 <section class="section">
     @if (Current is not null)
     {
@@ -12,7 +13,7 @@
         <TechTags Tags="@Current.Tags"></TechTags>
         
         <div style="height: @Pixels()">
-            <GitHubGist Url="@Current.GistUrl"></GitHubGist>
+            <GitHubGist File="@Current.GistFile" Url="@Current.GistUrl"></GitHubGist>
         </div>
     }
 </section>

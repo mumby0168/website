@@ -1,3 +1,4 @@
+@using System.Text
 
 
 <iframe
@@ -12,11 +13,26 @@
 
     [Parameter]
     public string Url { get; set; }
+        
+    [Parameter]
+    public string File { get; set; }
+
+    private string GetUrl()
+    {
+        var builder = new StringBuilder().Append(Url).Append(".js");
+        
+        if (string.IsNullOrWhiteSpace(File))
+        {
+            return builder.ToString();
+        }
+
+        return builder.Append("?file=").Append(File).ToString();
+    }
 
     public string Src => $@"
         data:text/html;charset=utf-8,
         <head><base target='_blank' /></head>
-        <body style='margin: 0; padding: 0'><script src='{Url}.js'></script>
+        <body style='margin: 0; padding: 0'><script src='{GetUrl()}'></script>
         </body>
     ";
 

@@ -1,5 +1,4 @@
 @page "/posts"
-@using Website.Client.Services
 @inject IPostService _postService
 @inject NavigationManager _navigationManager;
 
@@ -19,7 +18,7 @@
                         </p>
                     </div>
                     <footer class="card-footer">
-                        <p class="card-footer-item">
+                        <p class="card-footer-item is-justify-content-start">
                             <NavLink href="@ReadUrl(post.Id)">
                                 <IconWithText IconClass="fa fa-book" Text="Read"></IconWithText>
                             </NavLink>

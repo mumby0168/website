@@ -15,6 +15,8 @@ namespace Website.Shared
 
         public string GistUrl { get; set; } = "";
         
+        public string GistFile { get; set; } = "";  
+        
         public int RenderedHeightInPixels { get; set; }
         
         public DateTime CreatedUtc { get; set; }
