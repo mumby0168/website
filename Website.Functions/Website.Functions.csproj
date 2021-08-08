@@ -17,9 +17,6 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Apis" />
-    </ItemGroup>
-    <ItemGroup>
       <ProjectReference Include="..\Website.Shared\Website.Shared.csproj" />
     </ItemGroup>
 </Project>

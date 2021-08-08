@@ -1,7 +1,6 @@
 ﻿@page "/"
 
 
-
 <section class="section">
     <div class="container">
         <Header></Header>
@@ -31,16 +30,16 @@
                 </article>
             </div>
             <div class="column is-two-thirds">
-                            <article class="content">
-                                <h1 class="title">Projects</h1>
-                            </article>
-            
-                            @foreach (var project in Projects.OrderByDescending(p => p.StartedAt))
-                            {
-                                <ProjectTile Project="@project"/>
-                            }
-            
-                        </div>
+                <article class="content">
+                    <h1 class="title">Projects</h1>
+                </article>
+
+                @foreach (var project in Projects.OrderByDescending(p => p.StartedAt))
+                {
+                    <ProjectTile Project="@project"/>
+                }
+
+            </div>
         </div>
     </div>
 </section>

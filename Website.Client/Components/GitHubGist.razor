@@ -1,0 +1,19 @@
+<iframe
+    width="100%"
+    height="350"
+    src="@Src">
+</iframe>
+
+@code {
+
+    [Parameter]
+    public string Url { get; set; }
+
+    public string Src => $@"
+        data:text/html;charset=utf-8,
+        <head><base target='_blank' /></head>
+        <body style='height: 750px'><script src='{Url}'></script>
+        </body>
+    ";
+
+}
