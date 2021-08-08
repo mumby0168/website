@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Blog Post To Gist
+on:
+  push:
+    branches:
+      - publish/blog/*
+    paths:
+      - Blog/**
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  publish_blog_post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Extract File Path
+        uses: actions-ecosystem/action-regex-match@v2
+        id: regex-match
+        with:
+          text: ${{ github.ref }}
+          regex: '[a-zA-Z0-9]+\/[a-zA-Z0-9-]+.md$'
+      - name: Print File Path
+        run: echo '${{ steps.regex-match.outputs.match }}'
+    
+  
