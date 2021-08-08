@@ -13,7 +13,7 @@ namespace Website.Functions.Api
 {
     public static class Health
     {
-        [FunctionName("health")]
+        [FunctionName("api/health")]
         public static async Task<IActionResult> RunAsync(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
