@@ -28,7 +28,7 @@ jobs:
         run: echo $POST_PATH
       - name: Extract File Path
         uses: actions-ecosystem/action-regex-match@v2
-        id: regex-match
+        id: regex-match-2
         with:
           text: ${{ github.ref }}
           regex: '[a-zA-Z-0-9]+.md$'
