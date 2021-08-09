@@ -30,13 +30,16 @@ jobs:
 
       - uses: jungwinter/split@v1
         name: Extract File Path
-        id: split-file-name
+        id: split
         with:
           msg: '${{ steps.regex-match.outputs.match }}'
           seperator: '/'
           
       - name: Print File Path
-        run: echo '${{ steps.split-file-name.outputs._2 }}'
+        run: echo '${{ steps.split.outputs._2 }}'
+        
+      - name: Print File Path
+        run: echo '${{ steps.split.outputs._1 }}'
       #- name: Publish To Gist
        # uses: exuanbo/actions-deploy-gist@v1
         #with:
