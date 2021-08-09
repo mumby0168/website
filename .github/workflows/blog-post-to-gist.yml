@@ -34,18 +34,16 @@ jobs:
         with:
           msg: '${{ steps.regex-match.outputs.match }}'
           seperator: '/'
-          
-      - name: Print File Path
-        run: echo '${{ steps.split.outputs._2 }}'
-        
+              
       - name: Print File Path
         run: echo '${{ steps.split.outputs._1 }}'
-      #- name: Publish To Gist
-       # uses: exuanbo/actions-deploy-gist@v1
-        #with:
-         # token: ${{ secrets.GIST_TOKEN }}
-          #gist_id: from_your_gist_url
-          #gist_file_name: foo.bar
-          #file_path: './Blog/${{ steps.regex-match.outputs.match }}.md'
+        
+      - name: Publish To Gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: f943dc651b4ba10a4a8985ba4ae4b188
+          gist_file_name: '${{ steps.split.outputs._1 }}.md'
+          file_path: './Blog/${{ steps.regex-match.outputs.match }}.md'
     
   
