@@ -13,35 +13,38 @@ jobs:
   publish_blog_post:
     runs-on: ubuntu-latest
     steps:
+    
       - uses: actions/checkout@v2
         with:
           submodules: true
+          
       - name: Extract File Path
         uses: actions-ecosystem/action-regex-match@v2
         id: regex-match
         with:
           text: ${{ github.ref }}
           regex: '[a-zA-Z0-9]+\/[a-zA-Z0-9-]+$'
-      - name: Set Path Variable
-        run: export POST_PATH='${{ steps.regex-match.outputs.match }}'
+
       - name: Print File Path
-        run: echo $POST_PATH
-      - name: Extract File Path
-        uses: actions-ecosystem/action-regex-match@v2
-        id: regex-match
+        run: echo '${{ steps.regex-match.outputs.match }}'
+
+      - uses: jungwinter/split@v1
+        name: Extract File Path
+        id: split
         with:
-          text: ${{ github.ref }}
-          regex: '[a-zA-Z-0-9]+.md$'
-      - name: Set Path Variable
-        run: export FILE_NAME='${{ steps.regex-match.outputs.match }}'
+          msg: '${{ steps.regex-match.outputs.match }}'
+          seperator: '/'
+              
       - name: Print File Path
-        run: echo $FILE_NAME
-      #- name: Publish To Gist
-       # uses: exuanbo/actions-deploy-gist@v1
-        #with:
-         # token: ${{ secrets.GIST_TOKEN }}
-          #gist_id: from_your_gist_url
-          #gist_file_name: foo.bar
-          #file_path: './Blog/${{ steps.regex-match.outputs.match }}.md'
+        run: echo '${{ steps.split.outputs._1 }}'
+        
+      - name: Publish To Gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: f943dc651b4ba10a4a8985ba4ae4b188
+          gist_file_name: '${{ steps.split.outputs._1 }}.md'
+          file_path: './Blog/${{ steps.regex-match.outputs.match }}.md'
+
     
   
