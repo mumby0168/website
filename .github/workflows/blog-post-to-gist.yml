@@ -44,6 +44,6 @@ jobs:
           token: ${{ secrets.GIST_TOKEN }}
           gist_id: f943dc651b4ba10a4a8985ba4ae4b188
           gist_file_name: '${{ steps.split.outputs._1 }}.md'
-          file_path: './Blog/${{ steps.regex-match.outputs.match }}.md'
+          file_path: './website/Blog/${{ steps.regex-match.outputs.match }}.md'
     
   
