@@ -2,6 +2,17 @@
 
 @page "/posts/{postId}"
 
+<PageTitle>@Current.Title ?? @PostId</PageTitle>
+
+<HeadContent>
+    <meta name="og:description" content="@Current?.Description"/>
+    <meta name="description" content="@Current?.Description"/>
+    <meta name="og:title" content="@Current?.Title"/>
+    <meta name="title" content="@Current?.Title"/>
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="en_GB" />
+</HeadContent>
+
 <section class="section">
     @if (Current is not null)
     {
