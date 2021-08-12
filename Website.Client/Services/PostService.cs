@@ -14,7 +14,7 @@ namespace Website.Client.Services
         {
             new Post()
             {
-                Id = "1",
+                Id = "microsoft-di-getting-started",
                 Title = "Getting Started with Microsoft.Extensions.DependencyInjection",
                 GistUrl = "https://gist.github.com/mumby0168/8ef8a2849823b90a6abb25a740ab0aa9",
                 GistFile = "microsoft-di.md",
