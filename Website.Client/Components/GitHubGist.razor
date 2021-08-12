@@ -29,10 +29,17 @@
         return builder.Append("?file=").Append(File).ToString();
     }
 
-    public string Src => $@"
-        data:text/html;charset=utf-8,
-        <head><base target='_blank' /></head>
-        <body style='margin: 0; padding: 0'><script src='{GetUrl()}'></script>
+    public string Src => @"data:text/html;charset=utf-8,
+        <head>
+            <base target='_blank' />
+            <style>
+                body .gist .gist-file {
+                    border: none;
+                }
+            </style>
+        </head>
+        <body id='custom-gist' style='margin: 0; padding: 0'>
+            <script src='" + GetUrl() + @"'></script>
         </body>
     ";
 

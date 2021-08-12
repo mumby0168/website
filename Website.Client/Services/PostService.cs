@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Website.Client.Pages;
+using Website.Shared;
 using Post = Website.Shared.Post;
 
 namespace Website.Client.Services
@@ -14,20 +15,21 @@ namespace Website.Client.Services
             new Post()
             {
                 Id = "1",
-                Title = "Post 1",
-                GistUrl = "https://gist.github.com/Albert-W/e37d1c4fa30c430c37d7b1b1fe9b60d8",
-                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam malesuada quis tellus ut laoreet. Pellentesque facilisis dolor id bibendum pretium. In magna lectus, accumsan in leo id, pulvinar tristique neque. Suspendisse mattis dui in volutpat elementum. Proin dapibus placerat felis, at volutpat quam interdum egestas. Sed elementum ornare ante. Integer eget orci diam. Donec vitae lorem vel lorem fringilla luctus. Mauris vel varius est. Proin lacinia tempus mi, quis pharetra neque euismod et.",
-                CreatedUtc = DateTime.Now.AddDays(-20).ToUniversalTime()
+                Title = "Getting Started with Microsoft.Extensions.DependencyInjection",
+                GistUrl = "https://gist.github.com/mumby0168/8ef8a2849823b90a6abb25a740ab0aa9",
+                GistFile = "microsoft-di.md",
+                Description = @"Get started with Microsoft.Extensions.DependencyInjection package in a simple console application and see how larger frameworks such as 
+                                aspnet core utilise this package.",
+                Tags = new()
+                {
+                    new("nuget", Color.Info),
+                    new("microsoft", Color.Primary),
+                    new("csharp", Color.Info),
+                    new("di", Color.Success),
+                },
+                RenderedHeightInPixels = 1700,
+                CreatedUtc = new DateTime(2021, 8, 12, 15, 30, 0)
             },
-            new Post()
-            {
-                Id = "2",
-                Title = "Post 2",
-                GistUrl = "https://gist.github.com/mumby0168/22aa19681fdcf0066854a17349e730a3",
-                GistFile = "test01.md",
-                Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam malesuada quis tellus ut laoreet. Pellentesque facilisis dolor id bibendum pretium. In magna lectus, accumsan in leo id, pulvinar tristique neque. Suspendisse mattis dui in volutpat elementum. Proin dapibus placerat felis, at volutpat quam interdum egestas. Sed elementum ornare ante. Integer eget orci diam. Donec vitae lorem vel lorem fringilla luctus. Mauris vel varius est. Proin lacinia tempus mi, quis pharetra neque euismod et.",
-                CreatedUtc = DateTime.Now.ToUniversalTime()
-            }
         };
         
         public async Task<List<Post>> GetAll()

@@ -11,4 +11,5 @@ namespace Website.Client.Services
 
         Task<Post> Get(string id);
     }
+    
 }
