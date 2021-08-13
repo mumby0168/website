@@ -1,9 +1,17 @@
 namespace Website.Shared
 {
-    public record TechTag(string Name, Color Color, bool IsLight = true)
+    public class TechTag : Entity
     {
-        public string Name { get; } = Name;
-        public Color Color { get; } = Color;
-        public bool IsLight { get; } = IsLight;
+        public Color Color { get; set; }
+        public bool IsLight { get; set; }
+
+        public TechTag(string id, Color color, bool isLight = true)
+        {
+            Id = id;
+            Color = color;
+            IsLight = isLight;
+        }
+
+        public TechTag() { }
     }
 }

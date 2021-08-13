@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Azure.CosmosRepository;
 
 namespace Website.Shared
 {
-    public class Post
+    public class Post : Entity
     {
-        public string Id { get; set; } = "";
-
         public string Title { get; set; } = "";
 
         public string Description { get; set; } = "";
 
         public List<TechTag> Tags { get; set; } = new();
+
+        public bool IsPublished { get; set; }
 
         public string GistUrl { get; set; } = "";
         

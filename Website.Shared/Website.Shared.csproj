@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="IEvangelist.Azure.CosmosRepository" Version="2.2.0" />
+    </ItemGroup>
+
 </Project>

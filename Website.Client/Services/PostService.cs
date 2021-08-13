@@ -27,7 +27,7 @@ namespace Website.Client.Services
                     new("csharp", Color.Info),
                     new("di", Color.Success),
                 },
-                RenderedHeightInPixels = 1700,
+                RenderedHeightInPixels = 1750,
                 CreatedUtc = new DateTime(2021, 8, 12, 15, 30, 0)
             },
         };
