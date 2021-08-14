@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Octokit;
@@ -15,6 +16,7 @@ namespace Website.Functions
             {
                 options.DatabaseId = "blog-db";
                 options.ContainerPerItemType = true;
+                options.CosmosConnectionString = Environment.GetEnvironmentVariable("DatabaseConnectionString");
             });
 
             builder.Services.AddScoped(provider => new GitHubClient(new ProductHeaderValue("billy-mumby-blog-api")));
