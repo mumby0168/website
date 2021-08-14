@@ -58,20 +58,21 @@ namespace Website.Functions.Api
                 return NotFound();
             }
         }
-
-        [FunctionName("get-posts")]
-        public async Task<IActionResult> GetAll(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "blog")]
+        
+        [FunctionName("unpublished-posts")]
+        public async Task<IActionResult> GetUnPublished(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "blog/unpublished")]
             HttpRequestMessage request,
             ILogger log
         )
         {
-            var post = (await _postRepository.GetAsync(p => p.Type == nameof(Post))).ToList();
-            log.LogInformation($"{post.Count()} posts found");
+            var post = (await _postRepository.GetAsync(p => p.Type == nameof(Post) && !p.IsPublished)).ToList();
+            log.LogInformation($"{post.Count()} un-published posts found");
+
             return Ok(post);
         }
-        
-        
+
+
         [FunctionName("published-posts")]
         public async Task<IActionResult> GetPublished(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "blog/published")]
@@ -80,12 +81,12 @@ namespace Website.Functions.Api
         )
         {
             var post = (await _postRepository.GetAsync(p => p.Type == nameof(Post) && p.IsPublished)).ToList();
-            log.LogInformation($"{post.Count()} posts found");
+            log.LogInformation($"{post.Count()} published posts found");
 
             return Ok(post);
         }
-        
-        
+
+
         [FunctionName("create-post")]
         public async Task<IActionResult> Create(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = "blog")]

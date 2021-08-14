@@ -11,8 +11,13 @@
       "methods": ["GET"]
     },
     {
-      "route": "/api/published",
+      "route": "/api/blog/published",
       "allowedRoles": ["anonymous"],
+      "methods": ["GET"]
+    },
+    {
+      "route": "/api/blog/unpublished",
+      "allowedRoles": ["authenticated"],
       "methods": ["GET"]
     },
     {
