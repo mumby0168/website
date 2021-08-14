@@ -6,12 +6,12 @@
       "methods": ["GET"]
     },
     {
-      "route": "/api/blog",
+      "route": "/api/blog/*",
       "allowedRoles": ["anonymous"],
       "methods": ["GET"]
     },
     {
-      "route": "/api/published-posts",
+      "route": "/api/published",
       "allowedRoles": ["anonymous"],
       "methods": ["GET"]
     },
