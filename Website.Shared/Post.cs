@@ -6,6 +6,11 @@ namespace Website.Shared
 {
     public class Post : Entity
     {
+        public Post()
+        {
+            Id = string.Empty;
+        }
+        
         public string Title { get; set; } = "";
 
         public string Description { get; set; } = "";

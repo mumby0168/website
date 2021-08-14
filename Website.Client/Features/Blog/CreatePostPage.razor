@@ -1,0 +1,150 @@
+@page "/posts/new"
+@using Website.Client.Features.Shared.Forms
+
+@attribute [Authorize]
+
+<div class="container">
+    <section class="section">
+        <div class="panel">
+            <p class="panel-heading">Add Post</p>
+            <div class="p-4">
+                <EditForm EditContext="@EditContext">
+                    <FluentValidationValidator/>
+
+                    <div class="columns is-multiline">
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Id</label>
+                                <div class="control">
+                                    <InputText @bind-Value="@Post.Id" class="input" type="text" placeholder="Id"/>
+                                    <ValidationMessage For="() => Post.Id"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Title</label>
+                                <div class="control">
+                                    <InputText @bind-Value="@Post.Title" class="input" type="text" placeholder="Title"/>
+                                    <ValidationMessage For="() => Post.Title"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Github Gist Url</label>
+                                <div class="control">
+                                    <InputText @bind-Value="@Post.GistUrl" class="input" type="text" placeholder="Gist Url"/>
+                                    <ValidationMessage For="() => Post.GistUrl"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-half">
+                            <div class="field">
+                                <label class="label">Github Gist File</label>
+                                <div class="control">
+                                    <InputText @bind-Value="@Post.GistFile" class="input" type="text" placeholder="Title"/>
+                                    <ValidationMessage For="() => Post.GistFile"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-full">
+                            <div class="content mb-1">
+                                <h4>Tags</h4>
+                                <hr/>
+                                
+                                <div class="tags">
+                                    @foreach (var tag in Post.Tags)
+                                    {
+                                        <span class="@TagClass(tag)">
+                                            @tag.Id
+                                            <a @onclick="() => Remove(tag)" class="delete is-small"></a>
+                                        </span>
+                                    }
+                                </div>
+                                
+                                <div class="field">
+                                    <label class="label">Search</label>
+                                    <div class="control has-icons-left">
+                                        <input @bind-value="@SearchText" @bind-value:event="oninput" class="input" type="text"/>
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="menu" style="height: 15vh; overflow-y: scroll">
+                                <ul class="menu-list">
+                                    @foreach (var tag in FilteredTags)
+                                    {
+                                        <li>
+                                            <a @onclick="() => Add(tag)">
+                                                <i class="@CssClassHelper.Class("fa", "fa-square", Bulma.Colors.Text(tag.Color, tag.IsLight))"></i>
+                                                <span>@tag.Id</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            
+                        </div>
+
+                        <div class="column is-full">
+                            <button class="button" type="submit">Save</button>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+
+@code {
+
+    protected override Task OnInitializedAsync()
+    {
+        EditContext = new EditContext(Post);
+        EditContext.SetFieldCssClassProvider(new BulmaFieldClassProvider());
+        return base.OnInitializedAsync();
+    }
+
+    string SearchText { get; set; } = "";
+
+    Post Post { get; set; } = new();
+    EditContext EditContext { get; set; }
+
+    void Add(TechTag tag)
+    {
+        if (Post.Tags.Contains(tag) is false)
+        {
+            Post.Tags.Add(tag);
+        }
+    }
+
+    string TagClass(TechTag tag) => $"tag {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
+
+    void Remove(TechTag tag) => Post.Tags.Remove(tag);
+
+    IEnumerable<TechTag> FilteredTags => Tags.Where(t => t.Id.Contains(SearchText) && Post.Tags.Contains(t) is false);
+
+    List<TechTag> Tags { get; set; } = new()
+    {
+        new("nuget", Color.Info),
+        new("microsoft", Color.Primary),
+        new("csharp", Color.Info),
+        new("di", Color.Success),
+        new("c#", Color.Info),
+        new("cloud", Color.Primary),
+        new("static-web-apps", Color.Info),
+        new("azure", Color.Success),
+        new("dotnet", Color.Info),
+        new("azure-functions", Color.Primary),
+        new("blazor", Color.Info),
+        new("razor", Color.Success),
+    };
+
+}

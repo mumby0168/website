@@ -74,6 +74,7 @@ namespace Website.Functions.Api
         {
             var post = (await _postRepository.GetAsync(p => p.Type == nameof(Post) && p.IsPublished)).ToList();
             log.LogInformation($"{post.Count()} posts found");
+
             return Ok(post);
         }
         

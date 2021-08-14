@@ -10,5 +10,5 @@
     [Parameter]
     public List<TechTag> Tags { get; set; }
     
-    public string TagClass(TechTag tag) => $"tag {ColorHelpers.Class(tag.Color, tag.IsLight)}";
+    public string TagClass(TechTag tag) => $"tag {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
 }
