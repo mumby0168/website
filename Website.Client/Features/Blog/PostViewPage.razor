@@ -1,6 +1,7 @@
-@inject IPostService _postService;
-
 @page "/posts/{postId}"
+
+@inject HttpClient _client;
+@inject NavigationManager _navigationManager;
 
 
 <HeadContent>
@@ -25,21 +26,30 @@
     <meta property="twitter:title" content="@Current?.Title"/>
 </HeadContent>
 
-<section class="section">
-    @if (Current is not null)
-    {
-        <div class="content">
-            <h2 class="subtitle is-2">@Current.Title</h2>
-            <p>@Current.Description</p>
-        </div>
+@if (IsLoading)
+{
+    <Loading/>
+}
+else
+{
+    <section class="section">
+        @if (Current is not null)
+        {
+            <div class="content">
+                <h2 class="subtitle is-2">@Current.Title</h2>
+                <p>@Current.Description</p>
+            </div>
         
-        <TechTags Tags="@Current.Tags"></TechTags>
+            <TechTags Tags="@Current.Tags"></TechTags>
         
-        <div style="height: @Pixels()">
-            <GitHubGist File="@Current.GistFile" Url="@Current.GistUrl"></GitHubGist>
-        </div>
-    }
-</section>
+            <div style="height: @Pixels()">
+                <GitHubGist File="@Current.GistFile" Url="@Current.GistUrl"></GitHubGist>
+            </div>
+        }
+    </section>
+}
+
+
 
 
 
@@ -49,8 +59,8 @@
 
     [Parameter]
     public string PostId { get; set; }
-
-    Website.Shared.Post Current { get; set; }
+    
+    Post Current { get; set; }
 
     private string Pixels()
     {
@@ -62,13 +72,25 @@
         return "80vh";
     }
 
+    bool IsLoading { get; set; } = false;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         Console.WriteLine(PostId);
         if (firstRender)
         {
-            Current = await _postService.Get(PostId);
-            StateHasChanged();
+            try
+            {
+                IsLoading = true;
+                Current = await _client.GetFromJsonAsync<Post>($"api/blog/{PostId}");
+                IsLoading = false;
+                StateHasChanged();
+            }
+            catch
+            {
+                _navigationManager.NavigateTo("/notfound");
+                IsLoading = false;
+            }
         }
     }
 

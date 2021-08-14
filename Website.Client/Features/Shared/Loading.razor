@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="section mt-5">
+        <div class="content">
+            <progress class="progress is-medium is-dark" max="100">45%</progress>
+            <p>@Message</p>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Message { get; set; } = "Hang on we are just getting your data";
+
+}

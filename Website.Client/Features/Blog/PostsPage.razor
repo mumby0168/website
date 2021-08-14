@@ -1,41 +1,49 @@
 @page "/posts"
-@inject IPostService _postService
 @inject NavigationManager _navigationManager;
+@inject HttpClient _client;
 
 <section class="section">
-    <div class="columns">
-        @foreach (var post in All.OrderByDescending(p => p.CreatedUtc))
-        {
-            <div class="column is-half">
-                <div class="card">
-                    <div class="card-content">
-                        <p class="title is-4 mb-0">
-                            @post.Title
-                        </p>
-                        <p class="is-size-6 mb-2">@GetWrittenAgoText(post.CreatedUtc)</p>
-                        <p>
-                            @post.Description
-                        </p>
-                        <p class="mt-5">
-                            <TechTags Tags="@post.Tags"></TechTags>
-                        </p>
-                    </div>
-                    <footer class="card-footer">
-                        <p class="card-footer-item is-justify-content-start">
-                            <NavLink href="@ReadUrl(post.Id)">
-                                <span class="icon-text has-text-primary">
-                                    <span class="icon">
-                                        <i class="fa fa-book"></i>
+    @if (IsLoading)
+    {
+        <Loading></Loading>
+    }
+    else
+    {
+        <div class="columns">
+            @foreach (var post in All.OrderByDescending(p => p.CreatedUtc))
+            {
+                <div class="column is-half">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="title is-4 mb-0">
+                                @post.Title
+                            </p>
+                            <p class="is-size-6 mb-2">@GetWrittenAgoText(post.CreatedUtc)</p>
+                            <p>
+                                @post.Description
+                            </p>
+                            <p class="mt-5">
+                                <TechTags Tags="@post.Tags"></TechTags>
+                            </p>
+                        </div>
+                        <footer class="card-footer">
+                            <p class="card-footer-item is-justify-content-start">
+                                <NavLink href="@ReadUrl(post.Id)">
+                                    <span class="icon-text has-text-primary">
+                                        <span class="icon">
+                                            <i class="fa fa-book"></i>
+                                        </span>
+                                        <span>Read</span>
                                     </span>
-                                    <span>Read</span>
-                                </span>
-                            </NavLink>
-                        </p>
-                    </footer>
+                                </NavLink>
+                            </p>
+                        </footer>
+                    </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+
 </section>
 
 
@@ -47,7 +55,7 @@
         await base.OnInitializedAsync();
     }
 
-    List<Website.Shared.Post> All { get; set; } = new();
+    List<Post> All { get; set; } = new();
 
     public string GetWrittenAgoText(DateTime created)
     {
@@ -57,7 +65,7 @@
         {
             return $"Posted today";
         }
-        
+
         if (DateTime.Now.Month - created.Month is 0)
         {
             return $"Posted {diff.Days} days ago.";
@@ -71,9 +79,13 @@
 
     public string ReadUrl(string postId) => $"posts/{postId}";
 
+    bool IsLoading { get; set; } = false;
+
     private async Task Load()
     {
-        All = await _postService.GetAll();
+        IsLoading = true;
+        All = await _client.GetFromJsonAsync<List<Post>>("api/blog");
+        IsLoading = false;
     }
 
     private void View(string postId)
