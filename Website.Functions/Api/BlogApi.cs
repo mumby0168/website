@@ -61,7 +61,7 @@ namespace Website.Functions.Api
         
         [FunctionName("get-all-blog-posts")]
         public async Task<IActionResult> GetBlogPosts(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "admin/blog")]
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "owner/blog")]
             HttpRequestMessage request,
             ILogger log
         )
@@ -89,7 +89,7 @@ namespace Website.Functions.Api
 
         [FunctionName("create-post")]
         public async Task<IActionResult> Create(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "admin/blog")]
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "owner/blog")]
             HttpRequestMessage request,
             ILogger log
         )
