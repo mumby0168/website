@@ -223,7 +223,7 @@
     async Task SavePost()
     {
         Console.WriteLine("Trying to save post");
-        var result = await _client.PostAsJsonAsync("api/blog", Post);
+        var result = await _client.PostAsJsonAsync("api/admin/blog", Post);
 
         if (result.IsSuccessStatusCode)
         {
