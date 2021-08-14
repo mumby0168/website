@@ -1,27 +1,11 @@
 {
   "routes": [
     {
-      "route": "/api/health",
-      "allowedRoles": ["anonymous"],
-      "methods": ["GET"]
-    },
-    {
-      "route": "/api/blog/published",
-      "allowedRoles": ["anonymous"],
-      "methods": ["GET"]
-    },
-    {
-      "route": "/api/blog/unpublished",
-      "allowedRoles": ["authenticated"],
-      "methods": ["GET"]
-    },
-    {
-      "route": "/api/blog/*",
-      "allowedRoles": ["anonymous"], 
-      "methods": ["GET"]
-    },
-    {
       "route": "api/*",
+      "allowedRoles": ["anonymous"]
+    },
+    {
+      "route": "api/admin/*",
       "allowedRoles": ["authenticated"]
     }
   ],
