@@ -1,12 +1,12 @@
 {
   "routes": [
     {
-      "route": "api/*",
-      "allowedRoles": ["anonymous"]
-    },
-    {
       "route": "api/admin/*",
       "allowedRoles": ["authenticated"]
+    },
+    {
+      "route": "api/*",
+      "allowedRoles": ["anonymous"]
     }
   ],
   "navigationFallback": {
