@@ -9,6 +9,7 @@ namespace Website.Shared
         public Post()
         {
             Id = string.Empty;
+            RenderedHeightInPixels = 1000;
         }
         
         public string Title { get; set; } = "";

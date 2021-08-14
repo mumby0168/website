@@ -1,10 +1,23 @@
 {
   "routes": [
     {
-      "route": "/api/*",
-      "allowedRoles": [
-        "authenticated"
-      ]
+      "route": "/api/health",
+      "allowedRoles": ["anonymous"],
+      "methods": ["GET"]
+    },
+    {
+      "route": "/api/blog",
+      "allowedRoles": ["anonymous"],
+      "methods": ["GET"]
+    },
+    {
+      "route": "/api/published-posts",
+      "allowedRoles": ["anonymous"],
+      "methods": ["GET"]
+    },
+    {
+      "route": "api/*",
+      "allowedRoles": ["authenticated"]
     }
   ],
   "navigationFallback": {

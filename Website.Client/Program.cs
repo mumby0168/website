@@ -29,6 +29,7 @@ namespace Website.Client
             builder.Services.AddScoped<AuthenticationStateProvider, AzureStaticWebAppsAuthenticationStateProvider>();
             builder.Services.AddSingleton<IPostService, PostService>();
 
+
             await builder.Build().RunAsync();
         }
     }

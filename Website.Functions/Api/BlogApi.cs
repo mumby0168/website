@@ -35,6 +35,7 @@ namespace Website.Functions.Api
         [FunctionName("get-post")]
         public async Task<IActionResult> Get(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "blog/{id}")]
+            HttpRequestMessage request,
             string id,
             ILogger log
         )
@@ -42,6 +43,12 @@ namespace Website.Functions.Api
             try
             {
                 var post = await _postRepository.GetAsync(id, nameof(Post));
+                
+                if(post.IsPublished is false)
+                {
+                    return NotFound();
+                }
+
                 log.LogInformation($"Post with id: {id} found.");
                 return Ok(post);
             }

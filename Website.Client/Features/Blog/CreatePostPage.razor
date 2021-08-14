@@ -1,14 +1,15 @@
 @page "/posts/new"
-@using Website.Client.Features.Shared.Forms
-
+@using System.Net
 @attribute [Authorize]
+@inject HttpClient _client;
+@inject NavigationManager _navigationManager;
 
 <div class="container">
     <section class="section">
         <div class="panel">
             <p class="panel-heading">Add Post</p>
             <div class="p-4">
-                <EditForm EditContext="@EditContext">
+                <EditForm EditContext="@EditContext" OnValidSubmit="SavePost">
                     <FluentValidationValidator/>
 
                     <div class="columns is-multiline">
@@ -16,20 +17,32 @@
                             <div class="field">
                                 <label class="label">Id</label>
                                 <div class="control">
-                                    <InputText @bind-Value="@Post.Id" class="input" type="text" placeholder="Id"/>
+                                    <InputText @bind-Value="@Post.Id" class="input" type="text" placeholder="super-cool-blog-post"/>
                                     <ValidationMessage For="() => Post.Id"></ValidationMessage>
                                 </div>
                             </div>
                         </div>
+
                         <div class="column is-half">
                             <div class="field">
                                 <label class="label">Title</label>
                                 <div class="control">
-                                    <InputText @bind-Value="@Post.Title" class="input" type="text" placeholder="Title"/>
+                                    <InputText @bind-Value="@Post.Title" class="input" type="text" placeholder="Getting Started - Cool Post"/>
                                     <ValidationMessage For="() => Post.Title"></ValidationMessage>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="column is-full">
+                            <div class="field">
+                                <label class="label">Description</label>
+                                <div class="control">
+                                    <InputTextArea @bind-Value="@Post.Description" class="textarea" placeholder="A detailed description for this post."></InputTextArea>
+                                    <ValidationMessage For="() => Post.Description"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="column is-half">
                             <div class="field">
                                 <label class="label">Github Gist Url</label>
@@ -39,22 +52,37 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="column is-half">
                             <div class="field">
                                 <label class="label">Github Gist File</label>
                                 <div class="control">
-                                    <InputText @bind-Value="@Post.GistFile" class="input" type="text" placeholder="Title"/>
+                                    <InputText @bind-Value="@Post.GistFile" class="input" type="text" placeholder="post-01.md"/>
                                     <ValidationMessage For="() => Post.GistFile"></ValidationMessage>
                                 </div>
                             </div>
                         </div>
 
                         <div class="column is-full">
-                            <div class="content mb-1">
+                            <div class="field">
+                                <label class="label">Render Height in Pixels</label>
+                                <div class="control">
+                                    <InputNumber @bind-Value="@Post.RenderedHeightInPixels" class="input" type="number" placeholder="1200"/>
+                                    <ValidationMessage For="() => Post.RenderedHeightInPixels"></ValidationMessage>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-full">
+                            <div class="content mb-1 pt-0">
                                 <h4>Tags</h4>
                                 <hr/>
-                                
+
                                 <div class="tags">
+                                    @if (Post.Tags.Any() is false)
+                                    {
+                                        <p>No tags added to this post yet.</p>
+                                    }
                                     @foreach (var tag in Post.Tags)
                                     {
                                         <span class="@TagClass(tag)">
@@ -63,7 +91,7 @@
                                         </span>
                                     }
                                 </div>
-                                
+
                                 <div class="field">
                                     <label class="label">Search</label>
                                     <div class="control has-icons-left">
@@ -74,9 +102,18 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="menu" style="height: 15vh; overflow-y: scroll">
                                 <ul class="menu-list">
+                                    @if (FilteredTags.Any() is false)
+                                    {
+                                        <li>
+                                            <a @onclick="@NewTag">
+                                                <i class="fa fa-plus-circle"></i>
+                                                <span>Add Tag</span>
+                                            </a>
+                                        </li>
+                                    }
                                     @foreach (var tag in FilteredTags)
                                     {
                                         <li>
@@ -88,8 +125,25 @@
                                     }
                                 </ul>
                             </div>
-                            
+
+                            <div class="notification is-success is-light mt-2">
+                                <label class="checkbox">
+                                    <InputCheckbox @bind-Value="@Post.IsPublished" type="checkbox"/>
+                                    Do you want this post to published now?
+                                </label>
+                            </div>
+
+
                         </div>
+
+                        @if (ApiError is {})
+                        {
+                            <div class="column is-full">
+                                <div class="notification is-danger mt-2">
+                                    <p>@ApiError.Message</p>
+                                </div>
+                            </div>
+                        }
 
                         <div class="column is-full">
                             <button class="button" type="submit">Save</button>
@@ -114,8 +168,23 @@
 
     string SearchText { get; set; } = "";
 
-    Post Post { get; set; } = new();
+    Post Post { get; set; } = new()
+    {
+        GistUrl = "https://gist.github.com/mumby0168/8ef8a2849823b90a6abb25a740ab0aa9"
+    };
+
     EditContext EditContext { get; set; }
+
+    void NewTag()
+    {
+        if (Tags.Any(t => t.Id == SearchText))
+            return;
+
+        var newTag = TechTag.Random(SearchText);
+        Tags.Add(newTag);
+        Post.Tags.Add(newTag);
+        SearchText = string.Empty;
+    }
 
     void Add(TechTag tag)
     {
@@ -125,7 +194,7 @@
         }
     }
 
-    string TagClass(TechTag tag) => $"tag {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
+    string TagClass(TechTag tag) => $"tag is-medium {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
 
     void Remove(TechTag tag) => Post.Tags.Remove(tag);
 
@@ -146,5 +215,36 @@
         new("blazor", Color.Info),
         new("razor", Color.Success),
     };
+
+
+    ApiError ApiError { get; set; } = null;
+
+
+    async Task SavePost()
+    {
+        Console.WriteLine("Trying to save post");
+        var result = await _client.PostAsJsonAsync("api/blog", Post);
+
+        if (result.IsSuccessStatusCode)
+        {
+            Post = new();
+            if (Post.IsPublished)
+            {
+                _navigationManager.NavigateTo($"/posts/{Post.Id}");
+            }
+
+            _navigationManager.NavigateTo("/posts");
+        }
+        else if (result.IsClientError())
+        {
+            ApiError = result.StatusCode == HttpStatusCode.Unauthorized
+                ? new() {Message = "Your authorization to our servers failed."}
+                : await result.ToApiError();
+        }
+        else
+        {
+            ApiError = new ApiError() {Message = "The server is currently failing please try again."};
+        }
+    }
 
 }

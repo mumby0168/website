@@ -6,11 +6,11 @@ namespace Website.Shared
         Primary,
         Link,
         Success,
+        Warning,
+        Danger,
         Light,
         White,
         Black,
         Dark,
-        Warning,
-        Danger,
     }
 }
