@@ -1,26 +1,35 @@
 @using System.Text
 
+@if (IsLoading)
+{
+    <div class="content">
+        <progress class="progress is-small is-dark" max="100">45%</progress>
+        <p>Just getting the gist from <i class="fab fa-github"></i> ...</p>
+    </div>
+}
 
 <iframe
+    @onload="() => IsLoading = false"
     id="@Url"
     width="100%"
     height="100%"
     src="@Src">
 </iframe>
 
-    @code {
-    
+@code {
 
     [Parameter]
     public string Url { get; set; }
-        
+
     [Parameter]
     public string File { get; set; }
+
+    bool IsLoading { get; set; } = true;
 
     private string GetUrl()
     {
         var builder = new StringBuilder().Append(Url).Append(".js");
-        
+
         if (string.IsNullOrWhiteSpace(File))
         {
             return builder.ToString();
