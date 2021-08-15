@@ -28,7 +28,7 @@
 
 @if (IsLoading)
 {
-    <Loading/>
+    <Loading Message="Just grabbing the post ..."></Loading>
 }
 else
 {
@@ -82,6 +82,7 @@ else
             try
             {
                 IsLoading = true;
+                StateHasChanged();
                 Current = await _client.GetFromJsonAsync<Post>($"api/blog/{PostId}");
                 IsLoading = false;
                 StateHasChanged();
