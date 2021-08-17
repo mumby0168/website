@@ -159,11 +159,12 @@
 
 @code {
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         EditContext = new EditContext(Post);
         EditContext.SetFieldCssClassProvider(new BulmaFieldClassProvider());
-        return base.OnInitializedAsync();
+        Tags = await _client.GetFromJsonAsync<List<TechTag>>("api/tag");
+        await  base.OnInitializedAsync();
     }
 
     string SearchText { get; set; } = "";
@@ -200,21 +201,7 @@
 
     IEnumerable<TechTag> FilteredTags => Tags.Where(t => t.Id.Contains(SearchText) && Post.Tags.Contains(t) is false);
 
-    List<TechTag> Tags { get; set; } = new()
-    {
-        new("nuget", Color.Info),
-        new("microsoft", Color.Primary),
-        new("csharp", Color.Info),
-        new("di", Color.Success),
-        new("c#", Color.Info),
-        new("cloud", Color.Primary),
-        new("static-web-apps", Color.Info),
-        new("azure", Color.Success),
-        new("dotnet", Color.Info),
-        new("azure-functions", Color.Primary),
-        new("blazor", Color.Info),
-        new("razor", Color.Success),
-    };
+    List<TechTag> Tags { get; set; } = new();
 
 
     ApiError ApiError { get; set; } = null;
