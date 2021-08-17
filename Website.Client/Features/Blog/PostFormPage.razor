@@ -1,5 +1,5 @@
 @page "/posts/new"
-@using System.Net
+@page "/posts/edit/{id}"
 @attribute [Authorize]
 @inject HttpClient _client;
 @inject NavigationManager _navigationManager;
@@ -75,12 +75,17 @@
 
                         <TagsSelector Tags="Post.Tags"></TagsSelector>
 
-                        <div class="notification is-success is-light mt-2">
-                            <label class="checkbox">
-                                <InputCheckbox @bind-Value="@Post.IsPublished" type="checkbox"/>
-                                Do you want this post to published now?
-                            </label>
-                        </div>
+                        @if (IsEdit is false)
+                        {
+                            <div class="column is-full">
+                                <div class="notification is-success is-light mt-2">
+                                    <label class="checkbox">
+                                        <InputCheckbox @bind-Value="@Post.IsPublished" type="checkbox"/>
+                                        Do you want this post to published now?
+                                    </label>
+                                </div>
+                            </div>
+                        }
 
                         @if (ApiError is {})
                         {
@@ -105,12 +110,28 @@
 
 @code {
 
+
+    [Parameter]
+    public string Id { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         EditContext = new EditContext(Post);
         EditContext.SetFieldCssClassProvider(new BulmaFieldClassProvider());
 
         await base.OnInitializedAsync();
+    }
+
+    bool IsEdit { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id is not null)
+        {
+            Post = await _client.GetFromJsonAsync<Post>($"api/owner/blog/{Id}");
+            EditContext = new EditContext(Post ?? new ());
+            IsEdit = true;
+        }
     }
 
 

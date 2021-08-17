@@ -87,7 +87,7 @@
         }
     }
 
-    IEnumerable<TechTag> FilteredTags => AllTags.Where(t => t.Id.Contains(SearchText) && Tags.Contains(t) is false);
+    IEnumerable<TechTag> FilteredTags => AllTags.Where(t => t.Id.Contains(SearchText) && Tags.Any(existing => existing.Id == t.Id) is false);
 
     string SearchText { get; set; } = "";
 

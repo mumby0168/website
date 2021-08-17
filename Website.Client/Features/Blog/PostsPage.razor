@@ -9,10 +9,10 @@
     }
     else
     {
-        <div class="columns">
+        <div class="columns is-multiline">
             @foreach (var post in All.OrderByDescending(p => p.CreatedUtc))
             {
-                <div class="column is-half">
+                <div class="column is-full">
                     <div class="card">
                         <div class="card-content">
                             <p class="title is-4 mb-0">
@@ -27,7 +27,7 @@
                             </p>
                         </div>
                         <footer class="card-footer">
-                            <p class="card-footer-item is-justify-content-start">
+                            <div class="card-footer-item">
                                 <NavLink href="@ReadUrl(post.Id)">
                                     <span class="icon-text has-text-primary">
                                         <span class="icon">
@@ -36,7 +36,20 @@
                                         <span>Read</span>
                                     </span>
                                 </NavLink>
-                            </p>
+                            </div>
+                            <AuthorizeView>
+                                <div class="card-footer-item">
+                                    <NavLink href="@EditUrl(post.Id)">
+                                        <span class="icon-text has-text-dark">
+                                            <span class="icon">
+                                                <i class="fa fa-pen"></i>
+                                            </span>
+                                            <span>Edit</span>
+                                        </span>
+                                    </NavLink>
+                                </div>
+                            </AuthorizeView>
+
                         </footer>
                     </div>
                 </div>
@@ -77,7 +90,9 @@
         return $"Posted {diff.Days} days ago.";
     }
 
-    public string ReadUrl(string postId) => $"posts/{postId}";
+    string EditUrl(string postId) => $"posts/edit/{postId}";
+
+    string ReadUrl(string postId) => $"posts/{postId}";
 
     bool IsLoading { get; set; } = false;
 
