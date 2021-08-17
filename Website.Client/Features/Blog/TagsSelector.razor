@@ -1,0 +1,97 @@
+@inject HttpClient _client;
+
+
+<div class="column is-full">
+    <div class="content mb-1 pt-0">
+        <h4>Tags</h4>
+        <hr/>
+
+        <div class="tags">
+            @if (Tags.Any() is false)
+            {
+                <p>No tags added to this post yet.</p>
+            }
+            @foreach (var tag in Tags)
+            {
+                <span class="@TagClass(tag)">
+                    @tag.Id
+                    <a @onclick="() => Remove(tag)" class="delete is-small"></a>
+                </span>
+            }
+        </div>
+
+        <div class="field">
+            <label class="label">Search</label>
+            <div class="control has-icons-left">
+                <input @bind-value="@SearchText" @bind-value:event="oninput" class="input" type="text"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu" style="height: 15vh; overflow-y: scroll">
+        <ul class="menu-list">
+            @if (FilteredTags.Any() is false)
+            {
+                <li>
+                    <a @onclick="@NewTag">
+                        <i class="fa fa-plus-circle"></i>
+                        <span>Add Tag</span>
+                    </a>
+                </li>
+            }
+            @foreach (var tag in FilteredTags)
+            {
+                <li>
+                    <a @onclick="() => Add(tag)">
+                        <i class="@CssClassHelper.Class("fa", "fa-square", Bulma.Colors.Text(tag.Color, tag.IsLight))"></i>
+                        <span>@tag.Id</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public List<TechTag> Tags { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllTags = await _client.GetFromJsonAsync<List<TechTag>>("api/tag");
+        await base.OnInitializedAsync();
+    }
+
+    List<TechTag> AllTags { get; set; } = new();
+
+    void NewTag()
+    {
+        if (Tags.Any(t => t.Id == SearchText))
+            return;
+
+        var newTag = TechTag.Random(SearchText);
+        Tags.Add(newTag);
+        Tags.Add(newTag);
+        SearchText = string.Empty;
+    }
+
+    void Add(TechTag tag)
+    {
+        if (Tags.Contains(tag) is false)
+        {
+            Tags.Add(tag);
+        }
+    }
+
+    IEnumerable<TechTag> FilteredTags => AllTags.Where(t => t.Id.Contains(SearchText) && Tags.Contains(t) is false);
+
+    string SearchText { get; set; } = "";
+
+    string TagClass(TechTag tag) => $"tag is-medium {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
+
+    void Remove(TechTag tag) => Tags.Remove(tag);
+}

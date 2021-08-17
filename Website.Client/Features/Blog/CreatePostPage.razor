@@ -73,67 +73,13 @@
                             </div>
                         </div>
 
-                        <div class="column is-full">
-                            <div class="content mb-1 pt-0">
-                                <h4>Tags</h4>
-                                <hr/>
+                        <TagsSelector Tags="Post.Tags"></TagsSelector>
 
-                                <div class="tags">
-                                    @if (Post.Tags.Any() is false)
-                                    {
-                                        <p>No tags added to this post yet.</p>
-                                    }
-                                    @foreach (var tag in Post.Tags)
-                                    {
-                                        <span class="@TagClass(tag)">
-                                            @tag.Id
-                                            <a @onclick="() => Remove(tag)" class="delete is-small"></a>
-                                        </span>
-                                    }
-                                </div>
-
-                                <div class="field">
-                                    <label class="label">Search</label>
-                                    <div class="control has-icons-left">
-                                        <input @bind-value="@SearchText" @bind-value:event="oninput" class="input" type="text"/>
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="menu" style="height: 15vh; overflow-y: scroll">
-                                <ul class="menu-list">
-                                    @if (FilteredTags.Any() is false)
-                                    {
-                                        <li>
-                                            <a @onclick="@NewTag">
-                                                <i class="fa fa-plus-circle"></i>
-                                                <span>Add Tag</span>
-                                            </a>
-                                        </li>
-                                    }
-                                    @foreach (var tag in FilteredTags)
-                                    {
-                                        <li>
-                                            <a @onclick="() => Add(tag)">
-                                                <i class="@CssClassHelper.Class("fa", "fa-square", Bulma.Colors.Text(tag.Color, tag.IsLight))"></i>
-                                                <span>@tag.Id</span>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </div>
-
-                            <div class="notification is-success is-light mt-2">
-                                <label class="checkbox">
-                                    <InputCheckbox @bind-Value="@Post.IsPublished" type="checkbox"/>
-                                    Do you want this post to published now?
-                                </label>
-                            </div>
-
-
+                        <div class="notification is-success is-light mt-2">
+                            <label class="checkbox">
+                                <InputCheckbox @bind-Value="@Post.IsPublished" type="checkbox"/>
+                                Do you want this post to published now?
+                            </label>
                         </div>
 
                         @if (ApiError is {})
@@ -163,11 +109,10 @@
     {
         EditContext = new EditContext(Post);
         EditContext.SetFieldCssClassProvider(new BulmaFieldClassProvider());
-        Tags = await _client.GetFromJsonAsync<List<TechTag>>("api/tag");
-        await  base.OnInitializedAsync();
+
+        await base.OnInitializedAsync();
     }
 
-    string SearchText { get; set; } = "";
 
     Post Post { get; set; } = new()
     {
@@ -176,30 +121,6 @@
 
     EditContext EditContext { get; set; }
 
-    void NewTag()
-    {
-        if (Tags.Any(t => t.Id == SearchText))
-            return;
-
-        var newTag = TechTag.Random(SearchText);
-        Tags.Add(newTag);
-        Post.Tags.Add(newTag);
-        SearchText = string.Empty;
-    }
-
-    void Add(TechTag tag)
-    {
-        if (Post.Tags.Contains(tag) is false)
-        {
-            Post.Tags.Add(tag);
-        }
-    }
-
-    string TagClass(TechTag tag) => $"tag is-medium {Bulma.Colors.Is(tag.Color, tag.IsLight)}";
-
-    void Remove(TechTag tag) => Post.Tags.Remove(tag);
-
-    IEnumerable<TechTag> FilteredTags => Tags.Where(t => t.Id.Contains(SearchText) && Post.Tags.Contains(t) is false);
 
     List<TechTag> Tags { get; set; } = new();
 
