@@ -37,7 +37,7 @@
                                     </span>
                                 </NavLink>
                             </div>
-                            <AuthorizeView>
+                            <AuthorizeView Roles="@Roles.Contributor">
                                 <div class="card-footer-item">
                                     <NavLink href="@EditUrl(post.Id)">
                                         <span class="icon-text has-text-dark">

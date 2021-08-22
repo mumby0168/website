@@ -17,7 +17,7 @@
 
     <div class="@NavBarMenuClass">
         <div class="navbar-start">
-            <AuthorizeView>
+            <AuthorizeView Roles="@Roles.Contributor">
                 <Authorized>
                     <NavLink href="dashboard" class="navbar-item">
                         <span class="icon-text has-text-dark">

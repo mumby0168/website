@@ -1,6 +1,6 @@
 @page "/posts/new"
 @page "/posts/edit/{id}"
-@attribute [Authorize]
+@attribute [Authorize(Roles = Roles.Contributor)]
 @inject HttpClient _client;
 @inject NavigationManager _navigationManager;
 
