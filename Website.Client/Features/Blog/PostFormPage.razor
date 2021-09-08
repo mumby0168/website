@@ -137,7 +137,8 @@
 
     Post Post { get; set; } = new()
     {
-        GistUrl = "https://gist.github.com/mumby0168/8ef8a2849823b90a6abb25a740ab0aa9"
+        GistUrl = "https://gist.github.com/mumby0168/8ef8a2849823b90a6abb25a740ab0aa9",
+        CreatedUtc = DateTime.UtcNow
     };
 
     EditContext EditContext { get; set; }
