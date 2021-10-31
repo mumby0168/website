@@ -1,3 +1,5 @@
+@inject IAzureStaticWebAppLoginProvider _loginProvider;
+
 <hr style="border-bottom: 1px solid #363636; margin: 0; opacity: 0.2"/>
 <footer class="footer has-background-white py-4">
   <div class="content has-text-centered">
@@ -7,12 +9,12 @@
     </p>
     <div class="level">
       <div class="level-item">
-        <a href="/.auth/login/github" class="has-text-dark"><i class="fa fa-sign-in-alt"></i></a>
+        <a @onclick="Login" class="has-text-dark"><i class="fa fa-sign-in-alt"></i></a>
       </div>
     </div>
   </div>
 </footer>
 
 @code {
-    
+  void Login() => _loginProvider.WithGithub().Navigate();
 }
