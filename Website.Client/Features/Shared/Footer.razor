@@ -1,4 +1,4 @@
-@inject IAzureStaticWebAppLoginProvider _loginProvider;
+@inject IAzureStaticWebAppNavigationService _loginProvider;
 
 <hr style="border-bottom: 1px solid #363636; margin: 0; opacity: 0.2"/>
 <footer class="footer has-background-white py-4">
@@ -16,5 +16,5 @@
 </footer>
 
 @code {
-  void Login() => _loginProvider.WithGithub().Navigate();
+  void Login() => _loginProvider.Login().WithGithub().Navigate();
 }
