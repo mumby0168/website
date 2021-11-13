@@ -2,7 +2,7 @@
   "routes": [
     {
       "route": "api/owner/*",
-      "allowedRoles": ["authenticated"]
+      "allowedRoles": ["contributor"]
     },
     {
       "route": "api/*",

@@ -13,7 +13,6 @@ using Microsoft.Azure.CosmosRepository;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Octokit;
 using Website.Functions.Abstractions;
 using Website.Shared;
 
@@ -22,14 +21,10 @@ namespace Website.Functions.Api
     public class BlogApi : BaseFunction
     {
         private readonly IRepository<Post> _postRepository;
-        private readonly GitHubClient _gitHubClient;
-        private readonly IRepository<TechTag> _techTagsRepository;
 
-        public BlogApi(IRepository<Post> postRepository, GitHubClient gitHubClient, IRepository<TechTag> techTagsRepository)
+        public BlogApi(IRepository<Post> postRepository)
         {
             _postRepository = postRepository;
-            _gitHubClient = gitHubClient;
-            _techTagsRepository = techTagsRepository;
         }
 
         [FunctionName("published-post")]
