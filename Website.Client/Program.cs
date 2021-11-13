@@ -26,7 +26,7 @@ namespace Website.Client
             builder.Services.AddScoped(sp => new HttpClient {BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)});
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddBlazoredAzureStaticWebApp();
+            builder.Services.AddBlazoredAzureStaticWebAppsAuthentication();
 
 
             await builder.Build().RunAsync();
